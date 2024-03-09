@@ -85,6 +85,7 @@ input{
     width: 340px;
     height: 28px;
     opacity: 60%;
+    padding: 15px;
 }
 
 #emailItemHandler{
