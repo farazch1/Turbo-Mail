@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+}
+
+.upSide {
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    animation: show-up 1.6s ease;
+}
+
+.parentDiv {
+    background: rgb(238, 174, 202);
+    background: -moz-radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#eeaeca", endColorstr="#94bbe9", GradientType=1);
+
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+}
+
+
+.aboveCompose {
+    background-color: black;
+    left: 0;
+}
+
+#symbolImg {
+    margin-top: 25px;
+    width: 210px;
+}
+
+#composeScreen {
+    visibility: hidden;
+    position: fixed;
+    height: 100%;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+.underNeth {
+    height: 100%;
+    display: grid;
+    visibility: visible;
+    align-content: center;
+    justify-content: center;
+    animation: show-up 1.6s ease;
+}
+
+#gameChanger {
+    width: 400px;
+    height: 400px;
+    display: grid;
+}
+
+
+#composeScreen_2 {
+
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#composeBack-btn{
+    border-radius: 20px;
+    width: 80px;
+    height: 37px;
+    font-size: small;
+}
+
+#composeScreen_BackButton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 27%;
+    height: 55px;
+    display: flex;
+    justify-content: start;
+}
+
+input{
+    width: 340px;
+    height: 28px;
+    opacity: 60%;
+}
+
+#emailItemHandler{
+    display: grid;
+}
+
+#emailMessage{
+    width: 340px;
+    opacity: 60%;
+    background-color: white;
+    margin: 15px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    height: 160px;
+    overflow: auto;
+}
+
+#sendButtonDiv{
+    display: flex;
+    justify-content: center;
+}
+
+#sendEmail-btn{
+    border-radius: 20px;
+    width: 110px;
+    height: 32px;
+    font-size: small;
+}
+
+#composeArea{
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes show-up {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes hide-out {
+    0% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+    }
+}
