@@ -5,6 +5,7 @@ function sleep_1(ms)
 
 // Get references to elements
 const messageList = document.querySelector('.table');
+const mailItem = document.getElementById('inboxTable');
 const messageModal = document.getElementById('message-modal');
 const messageContent = document.getElementById('message-content');
 
@@ -51,3 +52,12 @@ messageAnchors.forEach(anchor => {
         openModal(messageId);
     });
 });
+
+function dummyMail(){
+    var htmlLine = '<tr class="Inbox_messagesRecieved">' +
+                            '<td>' +
+                                '<a href="#" class="openMsg">mail 1</a>' +
+                            '</td>' +
+                        '</tr>';
+    mailItem.innerHTML += htmlLine;
+}
