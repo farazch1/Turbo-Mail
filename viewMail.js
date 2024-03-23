@@ -56,7 +56,7 @@ messageAnchors.forEach(anchor => {
 function dummyMail(){
     var htmlLine = '<tr class="Inbox_messagesRecieved">' +
                             '<td>' +
-                                '<a href="#" class="openMsg">mail 1</a>' +
+                                '<a href="#" class="openMsg">mail</a>' +
                             '</td>' +
                         '</tr>';
     mailItem.innerHTML += htmlLine;
