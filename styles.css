@@ -33,7 +33,7 @@ body {
     width: 210px;
 }
 
-#composeScreen {
+.ComInbox {
     visibility: hidden;
     position: fixed;
     height: 100%;
@@ -124,6 +124,106 @@ input{
 
 
 
+
+/* Inbox Specs */
+
+.inboxController{   
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.backFromInbox
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 25%;
+    height: 55px;
+    display: flex;
+    justify-content: start;
+}
+
+#inboxBack-btn{
+    
+    border-radius: 20px;
+    width: 80px;
+    height: 37px;
+    font-size: small;
+}
+
+#inboxRefresh-btn{
+    
+    border-radius: 20px;
+    width: 80px;
+    height: 37px;
+    font-size: small;
+}
+
+
+#inboxArea{
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+@media (min-width: 1450px) {
+    #inboxItemHandler{
+        display: grid;
+        width: 42%;
+    }
+    
+}
+
+@media (max-width: 1449px) and (min-width: 1120px) {
+    #inboxItemHandler{
+        display: grid;
+        width: 45%;
+    }
+    
+}
+
+@media (max-width: 1119px) and (min-width: 1000px) {
+    #inboxItemHandler{
+        display: grid;
+        width: 53%;
+    }
+    
+}
+
+@media (max-width: 999px) and (min-width: 200px) {
+    #inboxItemHandler{
+        display: grid;
+        width: 48%;
+    }
+    
+}
+
+#inboxMessageMain
+    {
+        width: 100%;
+        opacity: 60%;
+        background-color: white;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        height: 300px;
+        overflow: auto;
+    }
+
+.openMsg{
+    text-decoration: none !important; 
+    color: black !important;
+}
+
+
+
+
+
+
+
+/* Animations */
+
 .messageArea::-webkit-scrollbar {
     width: 7px;
 }
@@ -138,6 +238,31 @@ input{
   outline: 1px solid slategrey;
   border-radius: 8px;
 }
+
+
+
+.inboxMain::-webkit-scrollbar {
+    width: 7px;
+}
+ 
+.inboxMain::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+ 
+}
+ 
+.inboxMain::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 8px;
+}
+
+
+
+
+#message-modal{
+
+}
+
 
 @keyframes show-up {
     0% {
@@ -155,6 +280,29 @@ input{
     }
 
     100% {
+        opacity: 0%;
+    }
+}
+
+
+@keyframes swipe-in{
+    0%{
+        transform: translateX(100%);
+        opacity: 0%;
+    }
+    100%{
+        transform: translate(0%);
+        opacity: 100%;
+    }
+}
+
+@keyframes swipe-out{
+    0%{
+        transform: translateX(0%);
+        opacity: 100%;
+    }
+    100%{
+        transform: translate(100%);
         opacity: 0%;
     }
 }
