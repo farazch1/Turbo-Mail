@@ -39,24 +39,32 @@ function closeModal() {
   
 }
 
-// (Later) Add event listeners to message anchors
-const messageAnchors = messageList.querySelectorAll('a');
-messageAnchors.forEach(anchor => {
-    anchor.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default navigation
-        // const messageId = anchor.dataset.messageId; 
+// // (Later) Add event listeners to message anchors
+// const messageAnchors = messageList.querySelectorAll('a');
+// messageAnchors.forEach(anchor => {
+//     anchor.addEventListener('click', (event) => {
+//         event.preventDefault(); // Prevent default navigation
+//         // const messageId = anchor.dataset.messageId; 
         
-        //testing purpose
-        const messageId = 'x';
+//         //testing purpose
+//         const messageId = 'x';
 
-        openModal(messageId);
-    });
+//         openModal(messageId);
+//     });
+// });
+
+
+mailItem.addEventListener('click', function(event) {
+    if (event.target.classList.contains('openMsg')) {
+        event.preventDefault(); // Prevent default navigation
+        openModal('x'); // Replace 'x' with the actual message ID or content
+    }
 });
 
 function dummyMail(){
     var htmlLine = '<tr class="Inbox_messagesRecieved">' +
                             '<td>' +
-                                '<a href="#" class="openMsg">mail</a>' +
+                                '<a href="#" class="openMsg">mail </a>' +
                             '</td>' +
                         '</tr>';
     mailItem.innerHTML += htmlLine;
