@@ -22,6 +22,12 @@ body {
     position: fixed;
 }
 
+#inboxButton{
+    border-radius: 20px;
+}
+#composeButton{
+    border-radius: 20px;
+}
 
 .aboveCompose {
     background-color: black;
@@ -158,6 +164,9 @@ input{
     font-size: small;
 }
 
+#inboxScreen{
+    margin-top: 9%
+}
 
 #inboxArea{
     display: flex;
