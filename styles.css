@@ -33,6 +33,14 @@ body {
     width: 210px;
 }
 
+#composeButton{
+    border-radius: 20px;
+}
+
+#inboxButton{
+    border-radius: 20px;
+}
+
 .ComInbox {
     visibility: hidden;
     position: fixed;
