@@ -20,9 +20,7 @@
                             <button id="inboxBack-btn" class="btn btn-primary btn-lg" style="height: 100%">Back</button>
                         </a>
                     </div>
-                    <div style="padding-left: 40%;">
-                        <button onclick="dummyMail()" id="inboxRefresh-btn" class="btn btn-primary btn-lg">Add dummy mail</button>
-                    </div>
+                    
                 </div>
                 <div id="inboxArea">
                     <div id="inboxItemHandler">
@@ -37,7 +35,7 @@
                                 {% for item in mail_inbox_items %}
                                     <tr class="Inbox_messagesRecieved">
                                         <td>
-                                            <a data-message-id="{{ item.id }}" class="openMsg">
+                                            <a data-message-id="{{ item.id }}" class="openMsg" style="cursor: pointer">
                                                 {{ item.Subject }}
                                             </a>
                                         </td>
@@ -53,7 +51,7 @@
 
                     <div id="message-modal" style="display: none;">
                         <h2>Message Details</h2>
-                        <div id="message-from"></div>
+                        <div id="message-from">Loading...</div>
                         <div id="message-date"></div>
                         <div id="message-subject"></div>
                         <div id="message-content"></div>
