@@ -32,17 +32,17 @@ goToComposebutton.addEventListener('click', () => {
 });
 
 
-goToInboxbutton.addEventListener('click', () => {
-    // Change the display of the element to "block"
-    underneth.style.animation =  "hide-out 1.5s ease"
-    // underneth.style.visibility = "hidden";
-
-    sleep(1100).then(() => { 
-        inboxScreen.style.visibility = "visible"
-        inboxScreen.style.position = "relative"
-        inboxScreen.style.animation =  "show-up 2s ease"
-    });
-});
+// goToInboxbutton.addEventListener('click', () => {
+//     // Change the display of the element to "block"
+//     underneth.style.animation =  "hide-out 1.5s ease"
+//     // underneth.style.visibility = "hidden";
+//
+//     sleep(1100).then(() => {
+//         inboxScreen.style.visibility = "visible"
+//         inboxScreen.style.position = "relative"
+//         inboxScreen.style.animation =  "show-up 2s ease"
+//     });
+// });
 
 composeBackBtn.addEventListener('click',() => {
     composeScreen.style.animation =  "hide-out 2s ease"

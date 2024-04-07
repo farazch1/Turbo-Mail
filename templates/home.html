@@ -39,55 +39,46 @@
           </div>
             
         </div>
-        
-        <div class="ComInbox" id="inboxScreen">
-            <div class="inboxController">
-                <div class="backFromInbox">
-                    <div>
-                        <button id="inboxBack-btn" class="btn btn-primary btn-lg">Back</button>
-                    </div>
-                    <div style="padding-left: 40%;">
-                        <button onclick="dummyMail()" id="inboxRefresh-btn" class="btn btn-primary btn-lg">Add dummy mail</button>
-                    </div>
-                </div>
-                <div id="inboxArea">
-                    <div id="inboxItemHandler">
-                        <div class="inboxMain" id="inboxMessageMain">
-                            <table class="table table-striped">
-                                <tbody id="inboxTable">
-                                    <tr class="Inbox_messagesRecieved">
-                                        <td>
-                                            <a href="#" class="openMsg">mail </a>
-                                        </td>
-                                    </tr>
-                                    <tr class="Inbox_messagesRecieved">
-                                        <td>
-                                            <a href="#" class="openMsg">mail</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="Inbox_messagesRecieved">
-                                        <td>
-                                            <a href="#" class="openMsg">mail</a>
-                                        </td>
-                                    </tr>
-                                    
-                                    
-                                </tbody>
-                            </table>
-                        </div>
 
-                    </div>
-
-                    <div id="message-modal" style="display: none;"> 
-                        <h2>Message Details</h2>
-                        <div id="message-content"></div> 
-                        <button style="border-radius: 20px;" class="btn btn-primary btn-sm" onclick="closeModal()">Close</button>
-                      </div>
-
-                      
-                </div>
-            </div>
-        </div>
+{#        <div class="ComInbox" id="inboxScreen">#}
+{#            <div class="inboxController">#}
+{#                <div class="backFromInbox">#}
+{#                    <div>#}
+{#                        <button id="inboxBack-btn" class="btn btn-primary btn-lg">Back</button>#}
+{#                    </div>#}
+{#                    <div style="padding-left: 40%;">#}
+{#                        <button onclick="dummyMail()" id="inboxRefresh-btn" class="btn btn-primary btn-lg">Add dummy mail</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div id="inboxArea">#}
+{#                    <div id="inboxItemHandler">#}
+{#                        <div class="inboxMain" id="inboxMessageMain">#}
+{#                            <table class="table table-striped">#}
+{#                                <tbody id="inboxTable">#}
+{#                                    <tr class="Inbox_messagesRecieved">#}
+{#                                        <td>#}
+{#                                            <a href="#" class="openMsg">mail </a>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                    {{ inbox }}#}
+{##}
+{##}
+{#                                </tbody>#}
+{#                            </table>#}
+{#                        </div>#}
+{##}
+{#                    </div>#}
+{##}
+{#                    <div id="message-modal" style="display: none;">#}
+{#                        <h2>Message Details</h2>#}
+{#                        <div id="message-content"></div>#}
+{#                        <button style="border-radius: 20px;" class="btn btn-primary btn-sm" onclick="closeModal()">Close</button>#}
+{#                      </div>#}
+{##}
+{##}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
 
         <div id="unserneth" class="underNeth">
             <div>
@@ -95,7 +86,9 @@
             </div>
             <div id="gameChanger">
                 <button id="composeButton" style="height: 100px; font-size: 34px;" type="button" class="btn btn-primary btn-lg">Compose</button>
-                <button id="inboxButton" style="height: 100px; font-size: 34px;" type="button" class="btn btn-secondary btn-lg">Inbox</button>
+                <a href="/inbox">
+                    <button id="inboxButton" style="height: 100px; font-size: 34px; width: 100%;" type="button" class="btn btn-secondary btn-lg">Inbox</button>
+                </a>
               </div>  
         </div>
 

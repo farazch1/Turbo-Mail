@@ -21,11 +21,20 @@ function openModal(messageId) {
 //       messageContent.innerHTML = messageText;
 //       messageModal.style.display = 'block';
 //     });
-    
+    fetch(`/mail/${messageId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(messageId)
+                document.getElementById('message-content').innerHTML = data.content; // Assuming your message object has a 'content' field
+                document.getElementById('message-modal').style.display = 'block';
+            })
+            .catch(error => console.error('Error fetching message details:', error));
+
+
     inboxItemHandler.style.display = 'none';
     messageModal.style.display = 'block';
     messageModal.style.animation =  "swipe-in 1.5s ease"
-    messageContent.innerHTML = messageId;
+    // messageContent.innerHTML = messageId;
 }
 
 // Function to close the modal
@@ -54,11 +63,15 @@ function closeModal() {
 // });
 
 
-mailItem.addEventListener('click', function(event) {
-    if (event.target.classList.contains('openMsg')) {
-        event.preventDefault(); // Prevent default navigation
-        openModal('x'); // Replace 'x' with the actual message ID or content
-    }
+document.addEventListener('DOMContentLoaded', function() {
+        const messageButtons = document.querySelectorAll('.openMsg');
+        messageButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-message-id');
+                console.log(messageId)
+                openModal(messageId);
+            });
+        });
 });
 
 function dummyMail(){
