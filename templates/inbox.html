@@ -38,7 +38,7 @@
                                     <tr class="Inbox_messagesRecieved">
                                         <td>
                                             <a data-message-id="{{ item.id }}" class="openMsg">
-                                                {{ item.subject }}
+                                                {{ item.Subject }}
                                             </a>
                                         </td>
                                     </tr>
@@ -53,6 +53,9 @@
 
                     <div id="message-modal" style="display: none;">
                         <h2>Message Details</h2>
+                        <div id="message-from"></div>
+                        <div id="message-date"></div>
+                        <div id="message-subject"></div>
                         <div id="message-content"></div>
                         <button style="border-radius: 20px;" class="btn btn-primary btn-sm" onclick="closeModal()">Close</button>
                       </div>

@@ -25,7 +25,10 @@ function openModal(messageId) {
             .then(response => response.json())
             .then(data => {
                 console.log(messageId)
-                document.getElementById('message-content').innerHTML = data.content; // Assuming your message object has a 'content' field
+                document.getElementById('message-from').innerHTML = 'From: ' + data.From;
+                document.getElementById('message-date').innerHTML = 'Date: ' + data.Date_n;
+                document.getElementById('message-subject').innerHTML = 'Subject: ' + data.Subject;
+                document.getElementById('message-content').innerHTML = 'Body: ' + data.Body; // Assuming your message object has a 'content' field
                 document.getElementById('message-modal').style.display = 'block';
             })
             .catch(error => console.error('Error fetching message details:', error));

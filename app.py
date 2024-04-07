@@ -4,6 +4,10 @@ from base64 import b64encode
 from flask import Flask, render_template, request, jsonify
 import email
 import re
+import imaplib
+import email
+import codecs
+import string
 
 # radix healthcare app password
 APP_PASSWORD = "etjx qvrf pwnp xhrk"
@@ -103,61 +107,7 @@ class EmailClient:
         self.quit()
         self.close_connection()
 
-class InboxClient:
-    def __init__(self, server, port, email, password):
-        self.server = server
-        self.port = port
-        self.email = email
-        self.password = password
-        self.context = ssl.create_default_context()
 
-    def connect(self):
-        self.sock = socket.create_connection((self.server, self.port))
-        self.ssock = self.context.wrap_socket(self.sock, server_hostname=self.server)
-        self.receive_greeting()
-
-    def receive_greeting(self):
-        greeting = self.ssock.recv(1024)
-
-    def login(self):
-        self.send_command(f'LOGIN {self.email} {self.password}\r\n')
-        self.response = self.ssock.recv(1024)
-
-    def select_mailbox(self, mailbox='INBOX'):
-        self.send_command(f'SELECT {mailbox}\r\n')
-        self.response = self.ssock.recv(1024)
-
-    def get_total_messages(self, mailbox='INBOX'):
-        self.send_command(f'STATUS {mailbox} (MESSAGES)\r\n')
-        response = self.ssock.recv(1024).decode()
-        num_messages = int(re.search(r"MESSAGES\s+(\d+)", response).group(1))
-        return num_messages
-
-    def fetch_message(self, message_number):
-        self.send_command(f'FETCH {message_number} RFC822\r\n')
-        self.response = self.ssock.recv(8192)
-
-    def parse_message(self):
-        msg = email.message_from_bytes(self.response)
-        subject = msg["Subject"] if msg["Subject"] else "No subject"
-        sender = msg["From"] if msg["From"] else "No sender"
-        body = ""
-        if msg.is_multipart():
-            for part in msg.walk():
-                content_type = part.get_content_type()
-                if content_type == "text/plain":
-                    body += part.get_payload(decode=True).decode()
-        else:
-            body = msg.get_payload(decode=True).decode()
-        return subject, sender, body
-
-    def send_command(self, command):
-        self.ssock.sendall(command.encode())
-
-    def logout(self):
-        self.send_command(b'LOGOUT\r\n')
-        self.ssock.close()
-        print("LOGGED OUT")
 
 
 app = Flask(__name__)
@@ -182,82 +132,158 @@ def hello_world():  # put application's code here
 
 @app.route('/inbox')
 def display_mail():  # put application's code here
-    # # IMAP server settings for Gmail
-    # IMAP_SERVER = 'imap.gmail.com'
-    # IMAP_PORT = 993
-    # EMAIL = 'healthcere.radix@gmail.com'
-    # PASSWORD = APP_PASSWORD
-    # client = EmailClient(IMAP_SERVER, IMAP_PORT, EMAIL, PASSWORD)
-    # # Establish connection
-    # client.connect()
-    #
-    # # Login to account
-    # client.login()
-    #
-    # # Select mailbox
-    # client.select_mailbox()
-    #
-    # # Get total number of messages
-    # num_messages = client.get_total_messages()
-    #
-    # # Fetch the most recent message
-    # client.fetch_message(num_messages)
-    #
-    # # Parse the email
-    # subject, sender, body = client.parse_message()
-    #
-    # # Print the results
-    # print("Subject:", subject)
-    # print("From:", sender)
-    # print("Body:", body)
-    #
-    # mail = []
-    # for i in range(1, num_messages + 1):
-    #     client.fetch_message(i)
-    #     subject, sender, body = client.parse_message()
-    #     mail.append({"Subject": subject, "From": sender, "Body": body})
     mail = [
-            {'subject': 'Welcome to our service', 'sender': 'info@example.com', 'id': 1},
-            {'subject': 'Your order confirmation', 'sender': 'sales@shop.com', 'id': 2}
-        ]
+        # {'subject': 'Welcome to our service', 'sender': 'info@example.com', 'id': 1},
+        # {'subject': 'Your order confirmation', 'sender': 'sales@shop.com', 'id': 2}
+
+    ]
+    message_id = 1  # Initialize a message ID counter
+    imap = imaplib.IMAP4_SSL('imap.gmail.com')
+    username = 'healthcere.radix@gmail.com'
+    password = APP_PASSWORD
+    imap.login(username, password)
+
+    for i in imap.list()[1]:
+        l = i.decode().split(' "/" ')
+        print(l[0] + " = " + l[1])
+
+    imap.select('"INBOX"')
+    status, messages = imap.search(None, 'ALL')
+
+    for num in messages[0].split()[::-1]:
+        _, msg = imap.fetch(num, '(RFC822)')
+        message = email.message_from_bytes(msg[0][1])
+        subject_header = message['Subject']
+        decoded_subject = email.header.decode_header(subject_header)
+        subject = decoded_subject[0][0]
+        print("Subject: ", subject)
+        print("From: ", message["From"])
+        print("Date: ", message["Date"])
+        print(message["Body"])  # Prints none
+
+        # Get the message body
+        if message.is_multipart():
+            # If message is multipart, iterate over each part
+            for part in message.walk():
+                content_type = part.get_content_type()
+                content_disposition = str(part.get("Content-Disposition"))
+                try:
+                    body = part.get_payload(decode=True).decode()
+                except:
+                    pass
+                if content_type == "text/plain" and "attachment" not in content_disposition:
+                    # Print the plain text part of the message
+                    print("Body: ", body)
+                    email_dict = {
+                        'id': message_id,
+                        'Subject': subject,
+                        'From': message["From"],
+                        'Date_n': message["Date"],
+                        'Body': body
+                    }
+                    mail.append(email_dict)
+        else:
+            # If message is not multipart, print the body directly
+            body = message.get_payload(decode=True).decode()
+            print("Body: ", body)
+            email_dict = {
+                'id': message_id,
+                'Subject': subject,
+                'From': message["From"],
+                'Date_n': message["Date"],
+                'Body': body
+            }
+            mail.append(email_dict)
+
+        # Increment the message ID
+        message_id += 1
+        print("----------------------")
+
+        # Print the list of dictionaries
+        print("Mail List:", mail)
+
+    # mail = [
+    #         {'subject': 'Welcome to our service', 'sender': 'info@example.com', 'id': 1},
+    #         {'subject': 'Your order confirmation', 'sender': 'sales@shop.com', 'id': 2}
+    #     ]
     return render_template("inbox.html",mail_inbox_items = mail)
 
 
 
 @app.route('/mail/<int:message_id>')
 def get_message(message_id):
-    # # IMAP server settings for Gmail
-    # IMAP_SERVER = 'imap.gmail.com'
-    # IMAP_PORT = 993
-    # EMAIL = 'healthcere.radix@gmail.com'
-    # PASSWORD = APP_PASSWORD
-    # client_spec = EmailClient(IMAP_SERVER, IMAP_PORT, EMAIL, PASSWORD)
-    # client_spec.connect()
-    # client_spec.login()
-    # client_spec.select_mailbox()
-    # num_messages = client_spec.get_total_messages()
-    # client_spec.fetch_message(num_messages)
-    # subject, sender, body = client_spec.parse_message()
-    #
-    # # Print the results
-    # print("Subject:", subject)
-    # print("From:", sender)
-    # print("Body:", body)
-    #
-    # particular_mail = []
-    # def get_message_details(message_id):
-    #     client_spec.fetch_message(message_id)
-    #     subject, sender, body = client_spec.parse_message()
-    #     particular_mail.append({"ID": message_id, "Subject": subject, "From": sender, "Body": body})
-    #
-    #
-    # extra_var = get_message_details(message_id)
     particular_mail = [
-        {'subject': 'Welcome to our service', 'sender': 'info@example.com', 'id': 1, 'content': 'this is first message'},
-        {'subject': 'Your order confirmation', 'sender': 'sales@shop.com', 'id': 2, 'content': 'this is second message'}
+        # {'subject': 'Welcome to our service', 'sender': 'info@example.com', 'id': 1,
+        #  'content': 'this is first message'},
+        # {'subject': 'Your order confirmation', 'sender': 'sales@shop.com', 'id': 2, 'content': 'this is second message'}
     ]
+    message_id_int = 1  # Initialize a message ID counter
+    imap = imaplib.IMAP4_SSL('imap.gmail.com')
+    username = 'healthcere.radix@gmail.com'
+    password = APP_PASSWORD
+    imap.login(username, password)
+
+    for i in imap.list()[1]:
+        l = i.decode().split(' "/" ')
+        print(l[0] + " = " + l[1])
+
+    imap.select('"INBOX"')
+    status, messages = imap.search(None, 'ALL')
+
+    for num in messages[0].split()[::-1]:
+        _, msg = imap.fetch(num, '(RFC822)')
+        message = email.message_from_bytes(msg[0][1])
+        subject_header = message['Subject']
+        decoded_subject = email.header.decode_header(subject_header)
+        subject = decoded_subject[0][0]
+        print("Subject: ", subject)
+        print("From: ", message["From"])
+        print("Date: ", message["Date"])
+        print(message["Body"])  # Prints none
+
+        # Get the message body
+        if message.is_multipart():
+            # If message is multipart, iterate over each part
+            for part in message.walk():
+                content_type = part.get_content_type()
+                content_disposition = str(part.get("Content-Disposition"))
+                try:
+                    body = part.get_payload(decode=True).decode()
+                except:
+                    pass
+                if content_type == "text/plain" and "attachment" not in content_disposition:
+                    # Print the plain text part of the message
+                    print("Body: ", body)
+                    email_dict = {
+                        'id': message_id_int,
+                        'Subject': subject,
+                        'From': message["From"],
+                        'Date_n': message["Date"],
+                        'Body': body
+                    }
+                    particular_mail.append(email_dict)
+        else:
+            # If message is not multipart, print the body directly
+            body = message.get_payload(decode=True).decode()
+            print("Body: ", body)
+            email_dict = {
+                'id': message_id_int,
+                'Subject': subject,
+                'From': message["From"],
+                'Date_n': message["Date"],
+                'Body': body
+            }
+            particular_mail.append(email_dict)
+
+        # Increment the message ID
+        message_id_int += 1
+        print("----------------------")
+
+        # Print the list of dictionaries
+        print("Mail List:", particular_mail)
+
     message = particular_mail[message_id-1]
-    print(jsonify(message))
+    print(message)
     return jsonify(message)
 
 
