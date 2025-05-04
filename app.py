@@ -9,8 +9,8 @@ import email
 import codecs
 import string
 
-# radix healthcare app password
-APP_PASSWORD = "etjx qvrf pwnp xhrk"
+# put your google account's app password here
+APP_PASSWORD = " "
 
 class EmailClient:
     
